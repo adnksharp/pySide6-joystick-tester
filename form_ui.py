@@ -36,12 +36,14 @@ class Ui_Widget(object):
 
         self.ax = QLCDNumber(Widget)
         self.ax.setObjectName(u"ax")
-        sizePolicy = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+        sizePolicy = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.ax.sizePolicy().hasHeightForWidth())
         self.ax.setSizePolicy(sizePolicy)
+        self.ax.setLayoutDirection(Qt.LayoutDirection.RightToLeft)
         self.ax.setFrameShape(QFrame.Shape.NoFrame)
+        self.ax.setSmallDecimalPoint(False)
         self.ax.setSegmentStyle(QLCDNumber.SegmentStyle.Flat)
 
         self.horizontalLayout.addWidget(self.ax)
@@ -55,7 +57,9 @@ class Ui_Widget(object):
         self.ay.setObjectName(u"ay")
         sizePolicy.setHeightForWidth(self.ay.sizePolicy().hasHeightForWidth())
         self.ay.setSizePolicy(sizePolicy)
+        self.ay.setLayoutDirection(Qt.LayoutDirection.RightToLeft)
         self.ay.setFrameShape(QFrame.Shape.NoFrame)
+        self.ay.setSmallDecimalPoint(False)
         self.ay.setSegmentStyle(QLCDNumber.SegmentStyle.Flat)
 
         self.horizontalLayout.addWidget(self.ay)
@@ -69,6 +73,8 @@ class Ui_Widget(object):
         self.di.setObjectName(u"di")
         sizePolicy.setHeightForWidth(self.di.sizePolicy().hasHeightForWidth())
         self.di.setSizePolicy(sizePolicy)
+        self.di.setLayoutDirection(Qt.LayoutDirection.RightToLeft)
+        self.di.setSmallDecimalPoint(False)
         self.di.setSegmentStyle(QLCDNumber.SegmentStyle.Flat)
 
         self.horizontalLayout.addWidget(self.di)

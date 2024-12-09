@@ -28,13 +28,19 @@
        <item>
         <widget class="QLCDNumber" name="ax">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
+         <property name="layoutDirection">
+          <enum>Qt::LayoutDirection::RightToLeft</enum>
+         </property>
          <property name="frameShape">
           <enum>QFrame::Shape::NoFrame</enum>
+         </property>
+         <property name="smallDecimalPoint">
+          <bool>false</bool>
          </property>
          <property name="segmentStyle">
           <enum>QLCDNumber::SegmentStyle::Flat</enum>
@@ -51,13 +57,19 @@
        <item>
         <widget class="QLCDNumber" name="ay">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
+         <property name="layoutDirection">
+          <enum>Qt::LayoutDirection::RightToLeft</enum>
+         </property>
          <property name="frameShape">
           <enum>QFrame::Shape::NoFrame</enum>
+         </property>
+         <property name="smallDecimalPoint">
+          <bool>false</bool>
          </property>
          <property name="segmentStyle">
           <enum>QLCDNumber::SegmentStyle::Flat</enum>
@@ -74,10 +86,16 @@
        <item>
         <widget class="QLCDNumber" name="di">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LayoutDirection::RightToLeft</enum>
+         </property>
+         <property name="smallDecimalPoint">
+          <bool>false</bool>
          </property>
          <property name="segmentStyle">
           <enum>QLCDNumber::SegmentStyle::Flat</enum>
