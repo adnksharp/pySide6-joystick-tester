@@ -21,6 +21,10 @@ colors = {
         'off': '#812b2d'
         }
 
+SW = 2
+JSX = 0
+JSY = 1
+
 class Canvas(FigureCanvas):
     def __init__(self):
         fig = Figure(facecolor=QPalette().color(QPalette.Window).name())
@@ -41,6 +45,28 @@ class Canvas(FigureCanvas):
         self.axes.set_ylim(0, 1023)
         self.axes.set_xlim(0, 1023)
 
+class Board():
+    def __init__(self, sw, *args):
+        self.board = arduino.Pymata4()
+        self.data = [0, 0, 0]
+        self.joystick = args
+        self.switch = sw
+        self.board.set_pin_mode_analog_input(args[0], self.xnew)
+        self.board.set_pin_mode_analog_input(args[1], self.ynew)
+        self.board.set_pin_mode_digital_input_pullup(sw, self.snew)
+            
+    def update(self, data, i):
+        self.data[i] = data
+            
+    def xnew(self, data):
+        self.update(data[2], 1)
+        
+    def ynew(self, data):
+        self.update(data[2], 2)
+        
+    def snew(self, data):
+        self.update(not data[2], 0)
+
 class Widget(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -48,7 +74,12 @@ class Widget(QWidget):
         self.ui.setupUi(self)
         
         self.graph = Canvas()
-
+        
+        self.ino = Board(SW, JSX, JSY)
+        
+    def closeEvent(self, event):
+        self.ino.board.shutdown()
+        event.accept()
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
