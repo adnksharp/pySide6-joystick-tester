@@ -40,6 +40,7 @@ class Canvas(FigureCanvas):
         super(Canvas, self).__init__(fig)
 
     def update(self, x = 512, y = 512):
+        self.axes.clear()
         self.axes.scatter(512, 512, color=colors['on'])
         self.axes.scatter(x, y, color=colors['high'])
         self.axes.set_ylim(0, 1023)
@@ -48,7 +49,7 @@ class Canvas(FigureCanvas):
 class Board():
     def __init__(self, sw, *args):
         self.board = arduino.Pymata4()
-        self.data = [0, 0, 0]
+        self.jdata = [0, 0, 0]
         self.joystick = args
         self.switch = sw
         self.board.set_pin_mode_analog_input(args[0], self.xnew)
@@ -56,26 +57,48 @@ class Board():
         self.board.set_pin_mode_digital_input_pullup(sw, self.snew)
             
     def update(self, data, i):
-        self.data[i] = data
+        self.jdata[i] = data
             
     def xnew(self, data):
-        self.update(data[2], 1)
+        self.update(data[2], 0)
         
     def ynew(self, data):
-        self.update(data[2], 2)
+        self.update(data[2], 1)
         
     def snew(self, data):
-        self.update(not data[2], 0)
+        self.update(1 - data[2], 2)
 
 class Widget(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.ui = Ui_Widget()
         self.ui.setupUi(self)
+        self.data = [0, 0, 0]
         
         self.graph = Canvas()
-        
         self.ino = Board(SW, JSX, JSY)
+        self.timer = QTimer()
+        
+        self.plot()
+        
+        self.timer.timeout.connect(self.update)
+        self.timer.start(100)
+        
+    def plot(self):
+        if self.ui.verticalLayout.count() > 1:
+            self.ui.verticalLayout.removeWidget(self.graph)
+        self.graph = Canvas()
+        self.graph.update(self.data[0], self.data[1])
+        
+        self.ui.verticalLayout.addWidget(self.graph)
+        
+    def update(self):
+        if self.ino.jdata[:3] != self.data:
+            self.data = self.ino.jdata[:3]
+            self.ui.ax.display(int(self.data[0] * 25 / 128) - 100)
+            self.ui.ay.display(int(self.data[1] * 25 / 128) - 100)
+            self.ui.di.display(self.data[2])
+            self.plot()
         
     def closeEvent(self, event):
         self.ino.board.shutdown()
